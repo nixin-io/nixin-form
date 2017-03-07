@@ -1,2 +1,11 @@
+/// <reference path="../../typings/index.d.ts" />
+
 import {isEmpty} from "../../nixin-form/scripts/modules/_nixin-IDCheck";
-alert(isEmpty(null));
+
+describe('_nixin_IDCheck', function(){
+    describe('isEmpty', function () {
+        it('should return true if value == null', function(){
+            expect(isEmpty(null)).toBeTruthy();
+       });
+   }) ;
+});
