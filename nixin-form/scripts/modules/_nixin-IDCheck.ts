@@ -3,13 +3,14 @@
 * this module collect all methods for basical test
 */
 
-import { _regExpr as regExpr } from "./_regExpr";
+import { _regExpr } from "./_regExpr";
+let regExpr = new _regExpr();
 /**
 * isEmpty
 * @param value  value to test
 * @return true or false
 */
-let isEmpty = function (value: any): boolean {
+export  function isEmpty(value: any): boolean {
     if (value != null && value != undefined && value.length != 0) return false;
     return true;
 }
@@ -18,7 +19,7 @@ let isEmpty = function (value: any): boolean {
 * @param value  value to test
 * @return true or false
 */
-let notEmpty = function (value: any): boolean {
+export function notEmpty(value: any): boolean {
     if (isEmpty(value)) return false;
     return true;
 }
@@ -27,7 +28,7 @@ let notEmpty = function (value: any): boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isInteger = function (value: any) {
+export function isInteger(value: any) {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.integer)) return true;
@@ -40,7 +41,7 @@ let isInteger = function (value: any) {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isFloat = function(value: any):boolean {
+export  function isFloat(value: any):boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.float)) return true;
@@ -53,7 +54,7 @@ let isFloat = function(value: any):boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isNegative = function(value: any):boolean {
+export function isNegative(value: any):boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.float)) return true;
@@ -66,7 +67,7 @@ let isNegative = function(value: any):boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isItalianZipCode = function (value: any):boolean {
+export function isItalianZipCode(value: any):boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.cap)) return true;
@@ -79,7 +80,7 @@ let isItalianZipCode = function (value: any):boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isEmail = function (value: any): boolean {
+export function isEmail(value: any): boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.email)) return true;
@@ -92,7 +93,7 @@ let isEmail = function (value: any): boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isGenericPhoneNumber = function(value: any):boolean {
+export function isGenericPhoneNumber(value: any):boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.genericPhoneNumber)) return true;
@@ -105,7 +106,7 @@ let isGenericPhoneNumber = function(value: any):boolean {
 * @param value  value to test
 * @return true or false matching a regular expression in _regExpr module
 */
-let isItalianMobilePhoneNumber = function (value: any): boolean {
+export function  isItalianMobilePhoneNumber(value: any): boolean {
     if (notEmpty(value)) {
         if (typeof value !== 'string') value = value.toString();
         if (value.match(regExpr.italianMobilePhone)) return true;
@@ -113,15 +114,5 @@ let isItalianMobilePhoneNumber = function (value: any): boolean {
     }
     return false;
 }
-export {
-        isEmpty,
-        notEmpty,
-        isInteger,
-        isFloat,
-        isNegative,
-        isItalianZipCode,
-        isEmail,
-        isGenericPhoneNumber,
-        isItalianMobilePhoneNumber
-};
+
 
