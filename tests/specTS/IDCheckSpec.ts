@@ -1,7 +1,7 @@
 /// <reference path="../../typings/index.d.ts" />
 
 import {isEmpty, notEmpty, isItalianZipCode, isInteger, isEmail,
-    isItalianMobilePhoneNumber, isGenericPhoneNumber} from "../../nixin-form/scripts/modules/_nixin-IDCheck";
+    isItalianMobilePhoneNumber, isGenericPhoneNumber, isFloat} from "../../nixin-form/scripts/modules/_nixin-IDCheck";
 
 let specKeyword:any[] = [null, undefined, ''];
 let generics:any = ['1', 'due', {}, 'dksf', -1, '-1'];
@@ -9,7 +9,8 @@ let OK_value_isItalianZipCode:any = [12345, '12354'];
 let KO_value_isItalianZipCode:any = [1234, 123456, '1234', '123456', '1234f', '123456f', '123d', null, undefined, '', ' '];
 let OK_value_isInteger:any = [123456, '12346'];
 let KO_value_isInteger:any = ['*ééè', 'ddd', null, undefined, ''];
-
+let OK_value_isFloat: any =[1.02, '1.02', -0.5, '-0.5'];
+let KO_value_isFloat: any =[null, '', undefined];
 let OK_value_isEmail:any = ['luigi@gmail.com'];
 let KO_value_isEmail:any = ['luigigmail.com', 'luigi@gmailcom', 'luigi@gmail.cosdijds, luigi/@gmail.com', null, undefined, '', ' '];
 let OK_value_isIMPN:any = [
@@ -136,6 +137,8 @@ describe('_nixin-IDCheck', ()=>{
    test('isItalianZipCode', isItalianZipCode, shouldReturnFalse, KO_value_isItalianZipCode);
    test('isInteger', isInteger, shouldReturnTrue, OK_value_isInteger);
    test('isInteger', isInteger, shouldReturnFalse, KO_value_isInteger);
+    test('isFloat', isFloat, shouldReturnTrue, OK_value_isFloat);
+    test('isFloat', isFloat, shouldReturnFalse, KO_value_isFloat);
    test('isEmail', isEmail, shouldReturnTrue, OK_value_isEmail);
    test('isEmail', isEmail, shouldReturnFalse, KO_value_isEmail);
    test('isItalianMobilePhoneNumber', isItalianMobilePhoneNumber, shouldReturnTrue, OK_value_isIMPN);

@@ -245,148 +245,96 @@ exports._regExpr = _regExpr;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/// <reference path="../../typings/index.d.ts" />
 
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Input Descriptor for Number test
+ * this module collect all methods for number basical test
+ */
 var _nixin_IDCheck_1 = __webpack_require__(0);
-var specKeyword = [null, undefined, ''];
-var generics = ['1', 'due', {}, 'dksf', -1, '-1'];
-var OK_value_isItalianZipCode = [12345, '12354'];
-var KO_value_isItalianZipCode = [1234, 123456, '1234', '123456', '1234f', '123456f', '123d', null, undefined, '', ' '];
-var OK_value_isInteger = [123456, '12346'];
-var KO_value_isInteger = ['*ééè', 'ddd', null, undefined, ''];
-var OK_value_isFloat = [1.02, '1.02', -0.5, '-0.5'];
-var KO_value_isFloat = [null, '', undefined];
-var OK_value_isEmail = ['luigi@gmail.com'];
-var KO_value_isEmail = ['luigigmail.com', 'luigi@gmailcom', 'luigi@gmail.cosdijds, luigi/@gmail.com', null, undefined, '', ' '];
-var OK_value_isIMPN = [
-    '+393881234567',
-    '+393891234567',
-    '+393801234567',
-    '3881234567',
-    '3891234567',
-    '3801234567',
-    '+393471234567',
-    '+393481234567',
-    '+393491234567',
-    '+393401234567',
-    '3471234567',
-    '3481234567',
-    '3491234567',
-    '3401234567',
-    '+393661234567',
-    '+393681234567',
-    '+393601234567',
-    '3661234567',
-    '3681234567',
-    '3601234567',
-    '3331234567',
-    '3341234567',
-    '3351234567',
-    '3361234567',
-    '3371234567',
-    '3381234567',
-    '3391234567',
-    '3661234567',
-    '3681234567',
-    '3601234567',
-    '+393331234567',
-    '+393341234567',
-    '+393351234567',
-    '+393361234567',
-    '+393371234567',
-    '+393381234567',
-    '+393391234567',
-    '3281234567',
-    '3291234567',
-    '+393281234567',
-    '+393291234567'
-];
-var KO_value_isIMPN = [
-    '387123456',
-    '346123456',
-    '365123456',
-    '332123456',
-    '310123456',
-    '387123456',
-    '346123456',
-    '365123456',
-    '332123456',
-    '310123456',
-    '38712345678',
-    '34612345678',
-    '36512345678',
-    '33212345678',
-    '31012345678',
-    '+393871234567',
-    '+393461234567',
-    '+393651234567',
-    '+393321234567',
-    '+393101234567',
-    '-393291234567',
-    '39/3291234567',
-    'kf/3291234567',
-    '',
-    'null',
-    'undefined',
-    ' ',
-    null,
-    undefined
-];
-var OK_value_isGPN = [
-    '0881/55442541',
-    '1234567891282',
-    '0881/5544/2541',
-    '0881\\1235115'
-];
-var KO_value_isGPN = [
-    'null',
-    'undefined',
-    ' ',
-    '12sdf5454',
-    'd',
-    '12351f\\21df1',
-    '+390881558721',
-    '+39/0881/558721',
-    '+390881/558721',
-    null,
-    undefined, ''
-];
-function shouldReturnTrue(value, method) {
-    return it('Should return true if value is ' + value, function () {
-        expect(method(value)).toBeTruthy();
-    });
+/**
+ * isNumber
+ * @param value  value to test
+ * @return true if if value is an integer or value is a float else return false
+ */
+function isNumber(value) {
+    if (_nixin_IDCheck_1.notEmpty(value)) {
+        if (_nixin_IDCheck_1.isInteger(value) || _nixin_IDCheck_1.isFloat(value))
+            return true;
+    }
+    return false;
 }
-function shouldReturnFalse(value, method) {
-    return it('Should return false if value is ' + value, function () {
-        expect(method(value)).toBeFalsy();
-    });
-}
-function test(methodName, method, applyFunction, onValue) {
-    describe(methodName, function () {
-        for (var i = 0; i < onValue.length; i++) {
-            applyFunction(onValue[i], method);
+exports.isNumber = isNumber;
+/**
+ * isLessThan
+ * @param value  value to test
+ * @param compareTo value to compare value parameter
+ * @return true if value is less or equal than compareTo parameter,
+ * throw an error if value and compareTo aren't number
+ * return undefined if value or compareTo are empty
+ */
+function isLessThan(value, compareTo) {
+    if (_nixin_IDCheck_1.notEmpty(value) && _nixin_IDCheck_1.notEmpty(compareTo)) {
+        if (isNumber(value) && isNumber(compareTo)) {
+            if (value <= compareTo)
+                return true;
+            return false;
         }
-    });
+        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+    }
+    return undefined;
 }
-describe('_nixin-IDCheck', function () {
-    test('isEmpty', _nixin_IDCheck_1.isEmpty, shouldReturnTrue, specKeyword);
-    test('isEmpty', _nixin_IDCheck_1.isEmpty, shouldReturnFalse, generics);
-    test('notEmpty', _nixin_IDCheck_1.notEmpty, shouldReturnTrue, generics);
-    test('notEmpty', _nixin_IDCheck_1.notEmpty, shouldReturnFalse, specKeyword);
-    test('isItalianZipCode', _nixin_IDCheck_1.isItalianZipCode, shouldReturnTrue, OK_value_isItalianZipCode);
-    test('isItalianZipCode', _nixin_IDCheck_1.isItalianZipCode, shouldReturnFalse, KO_value_isItalianZipCode);
-    test('isInteger', _nixin_IDCheck_1.isInteger, shouldReturnTrue, OK_value_isInteger);
-    test('isInteger', _nixin_IDCheck_1.isInteger, shouldReturnFalse, KO_value_isInteger);
-    test('isFloat', _nixin_IDCheck_1.isFloat, shouldReturnTrue, OK_value_isFloat);
-    test('isFloat', _nixin_IDCheck_1.isFloat, shouldReturnFalse, KO_value_isFloat);
-    test('isEmail', _nixin_IDCheck_1.isEmail, shouldReturnTrue, OK_value_isEmail);
-    test('isEmail', _nixin_IDCheck_1.isEmail, shouldReturnFalse, KO_value_isEmail);
-    test('isItalianMobilePhoneNumber', _nixin_IDCheck_1.isItalianMobilePhoneNumber, shouldReturnTrue, OK_value_isIMPN);
-    test('isItalianMobilePhoneNumber', _nixin_IDCheck_1.isItalianMobilePhoneNumber, shouldReturnFalse, KO_value_isIMPN);
-    test('isGenericPhoneNumber', _nixin_IDCheck_1.isGenericPhoneNumber, shouldReturnTrue, OK_value_isGPN);
-    test('isGenericPhoneNumber', _nixin_IDCheck_1.isGenericPhoneNumber, shouldReturnFalse, KO_value_isGPN);
-});
+exports.isLessThan = isLessThan;
+/**
+ * isGreaterThan
+ * @param value  value to test
+ * @param compareTo value to compare value parameter
+ * @return true if value is greater or equal than compareTo parameter,
+ * throw an error if value and compareTo aren't number
+ * return undefined if value or compareTo are empty
+ */
+function isGreaterThan(value, compareTo) {
+    if (_nixin_IDCheck_1.notEmpty(value) && _nixin_IDCheck_1.notEmpty(compareTo)) {
+        if (isNumber(value) && isNumber(compareTo)) {
+            if (value >= compareTo)
+                return true;
+            return false;
+        }
+        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+    }
+    return undefined;
+}
+exports.isGreaterThan = isGreaterThan;
+/**
+ * isInRange
+ * @param value  value to test
+ * @param min min value to compare value parameter
+ * @param max max value to compare value parameter
+ * @return true if value is less or equal than max parameter and greater or equal than min parameter,
+ * throw an error if value, max or min aren't number
+ * return false if value is not between min and max or if value or min or max is empty
+ */
+function isInRange(value, min, max) {
+    if (isGreaterThan(value, min) && isLessThan(value, max))
+        return true;
+    return false;
+}
+exports.isInRange = isInRange;
+/**
+ * isOutRange
+ * @param value  value to test
+ * @param min min value to compare value parameter
+ * @param max max value to compare value parameter
+ * @return true if value is greater than max parameter and less than min parameter or if value/min/max is empty
+ * throw an error if value, max or min aren't number
+ * return false if value is between min and max
+ */
+function isOutRange(value, min, max) {
+    if (isInRange(value, min, max))
+        return false;
+    return true;
+}
+exports.isOutRange = isOutRange;
 
 
 /***/ })
