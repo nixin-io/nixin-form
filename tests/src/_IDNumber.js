@@ -252,6 +252,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * this module collect all methods for number basical test
  */
 var _nixin_IDCheck_1 = __webpack_require__(0);
+var customError = (function () {
+    function customError(name, message) {
+        this.name = 'customError';
+        this.message = 'A custom Error occured!';
+        this.name = name;
+        this.message = message;
+    }
+    return customError;
+}());
+exports.customError = customError;
 /**
  * isNumber
  * @param value  value to test
@@ -280,9 +290,9 @@ function isLessThan(value, compareTo) {
                 return true;
             return false;
         }
-        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+        throw new customError('isNumber_Error', 'a value is not a number: value = ' + value + " compareTo= " + compareTo);
     }
-    return undefined;
+    throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " compareTo= " + compareTo);
 }
 exports.isLessThan = isLessThan;
 /**
@@ -300,9 +310,9 @@ function isGreaterThan(value, compareTo) {
                 return true;
             return false;
         }
-        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+        throw new customError('isNumber_Error', 'a value is not a number: value = ' + value + " compareTo= " + compareTo);
     }
-    return undefined;
+    throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " compareTo= " + compareTo);
 }
 exports.isGreaterThan = isGreaterThan;
 /**
@@ -315,9 +325,17 @@ exports.isGreaterThan = isGreaterThan;
  * return false if value is not between min and max or if value or min or max is empty
  */
 function isInRange(value, min, max) {
-    if (isGreaterThan(value, min) && isLessThan(value, max))
-        return true;
-    return false;
+    try {
+        if (isGreaterThan(value, min) && isLessThan(value, max))
+            return true;
+        return false;
+    }
+    catch (error) {
+        if (error.name == 'isEmpty_Error')
+            throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max);
+        if (error.name == 'isNumber_Error')
+            throw new customError('isNumber_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max);
+    }
 }
 exports.isInRange = isInRange;
 /**

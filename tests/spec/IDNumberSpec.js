@@ -78,6 +78,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * this module collect all methods for number basical test
  */
 var _nixin_IDCheck_1 = __webpack_require__(1);
+var customError = (function () {
+    function customError(name, message) {
+        this.name = 'customError';
+        this.message = 'A custom Error occured!';
+        this.name = name;
+        this.message = message;
+    }
+    return customError;
+}());
+exports.customError = customError;
 /**
  * isNumber
  * @param value  value to test
@@ -106,9 +116,9 @@ function isLessThan(value, compareTo) {
                 return true;
             return false;
         }
-        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+        throw new customError('isNumber_Error', 'a value is not a number: value = ' + value + " compareTo= " + compareTo);
     }
-    return undefined;
+    throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " compareTo= " + compareTo);
 }
 exports.isLessThan = isLessThan;
 /**
@@ -126,9 +136,9 @@ function isGreaterThan(value, compareTo) {
                 return true;
             return false;
         }
-        throw new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo);
+        throw new customError('isNumber_Error', 'a value is not a number: value = ' + value + " compareTo= " + compareTo);
     }
-    return undefined;
+    throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " compareTo= " + compareTo);
 }
 exports.isGreaterThan = isGreaterThan;
 /**
@@ -146,8 +156,11 @@ function isInRange(value, min, max) {
             return true;
         return false;
     }
-    catch (e) {
-        throw new Error('values ​​not comparable value= ' + value + ' val1=' + min + ' val2=' + max);
+    catch (error) {
+        if (error.name == 'isEmpty_Error')
+            throw new customError('isEmpty_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max);
+        if (error.name == 'isNumber_Error')
+            throw new customError('isNumber_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max);
     }
 }
 exports.isInRange = isInRange;
@@ -369,7 +382,7 @@ var KO_value_isGreaterThan = [
     { val: 99, cmp: 100 },
     { val: 1, cmp: 100 },
 ];
-var undefined_value_isLessThan = [
+var isEmpty_Error_value_isLessThan = [
     { val: null, cmp: 100 },
     { val: undefined, cmp: 100 },
     { val: '', cmp: 100 },
@@ -380,7 +393,7 @@ var undefined_value_isLessThan = [
     { val: undefined, cmp: undefined },
     { val: '', cmp: '' },
 ];
-var throwError_value_isLessThan = [
+var isNumber_Error_value_isLessThan = [
     { val: 'c', cmp: 100 },
     { val: 10, cmp: 'c' },
     { val: 'c', cmp: 'd' }
@@ -391,32 +404,48 @@ var OK_value_isInRange = [
 ];
 var KO_value_isInRange = [
     { val: 100, val1: 101, val2: 102 },
-    { val: null, val1: 100, val2: 101 },
-    { val: undefined, val1: 100, val2: 101 },
-    { val: '', val1: 100, val2: 101 },
-    { val: 99, val1: null, val2: 101 },
-    { val: 99, val1: undefined, val2: 101 },
-    { val: 99, val1: '', val2: 101 },
-    { val: null, val1: null, val2: 101 },
-    { val: undefined, val1: undefined, val2: 101 },
-    { val: '', val1: '', val2: 101 },
 ];
-var throwError_value_isInRange = [
-    { val: 100, val1: 'c', val2: 102 },
-    { val: 100, val1: 100, val2: 'd' },
-    { val: 100, val1: 'c', val2: 'd' }
+var isNumber_Error_value_isInRange = [
+    { val: 100, val1: 100, val2: 'c' },
+    { val: 100, val1: 'c', val2: 100 },
+    { val: 'c', val1: 100, val2: 100 }
 ];
-/*let undefined_value_isInRange: any=[
-    {val:null, val1: 100, val2:101},
-    {val:undefined, val1: 100, val2:101},
-    {val:'', val1: 100, val2:101},
-    {val:99, val1: null, val2:101},
-    {val:99, val1: undefined, val2:101},
-    {val:99, val1: '', val2:101},
-    {val:null, val1: null, val2:101},
-    {val:undefined, val1: undefined, val2:101},
-    {val:'', val1: '', val2:101},
-];*/
+var isEmpty_Error_value_isInRange = [
+    { val: null, val1: null, val2: null },
+    { val: null, val1: null, val2: undefined },
+    { val: null, val1: null, val2: '' },
+    { val: null, val1: undefined, val2: null },
+    { val: null, val1: undefined, val2: undefined },
+    { val: null, val1: undefined, val2: '' },
+    { val: null, val1: '', val2: null },
+    { val: null, val1: '', val2: undefined },
+    { val: null, val1: '', val2: '' },
+    { val: undefined, val1: null, val2: null },
+    { val: undefined, val1: null, val2: undefined },
+    { val: undefined, val1: null, val2: '' },
+    { val: undefined, val1: undefined, val2: null },
+    { val: undefined, val1: undefined, val2: undefined },
+    { val: undefined, val1: undefined, val2: '' },
+    { val: undefined, val1: '', val2: null },
+    { val: undefined, val1: '', val2: undefined },
+    { val: undefined, val1: '', val2: '' },
+    { val: '', val1: null, val2: null },
+    { val: '', val1: null, val2: undefined },
+    { val: '', val1: null, val2: '' },
+    { val: '', val1: undefined, val2: null },
+    { val: '', val1: undefined, val2: undefined },
+    { val: '', val1: undefined, val2: '' },
+    { val: '', val1: '', val2: null },
+    { val: '', val1: '', val2: undefined },
+    { val: '', val1: '', val2: '' },
+];
+var KO_value_isOutRange = [
+    { val: 100, val1: 99, val2: 101 },
+    { val: 100, val1: 100, val2: 100 },
+];
+var OK_value_isOutRange = [
+    { val: 100, val1: 101, val2: 102 }
+];
 function shouldReturnTrue(value, method) {
     return it('Should return true if value is ' + value, function () {
         expect(method(value)).toBeTruthy();
@@ -444,9 +473,15 @@ function shouldReturnUndefined2P(value, compareTo, method, methodDesc) {
     });
 }
 ;
-function shouldThrowAnError2P(value, compareTo, method, methodDesc) {
+function shouldThrowAnError2P_isEmpty_Error(value, compareTo, method, methodDesc) {
     return it('Should throw an error if ' + value + ' ' + methodDesc + ' ' + compareTo, function () {
-        expect(function () { method(value, compareTo); }).toThrow(new Error('values ​​not comparable value= ' + value + " compareTo= " + compareTo));
+        expect(function () { method(value, compareTo); }).toThrow(new _nixin_IDNumber_1.customError('isEmpty_Error', 'a value is Empty: value = ' + value + " compareTo= " + compareTo));
+    });
+}
+;
+function shouldThrowAnError2P_isNumber_Error(value, compareTo, method, methodDesc) {
+    return it('Should throw an error if ' + value + ' ' + methodDesc + ' ' + compareTo, function () {
+        expect(function () { method(value, compareTo); }).toThrow(new _nixin_IDNumber_1.customError('isNumber_Error', 'a value is not a number: value = ' + value + " compareTo= " + compareTo));
     });
 }
 ;
@@ -466,9 +501,15 @@ function shouldReturnUndefined3P(value, val1, val2, method, methodDesc) {
     });
 }
 ;
-function shouldThrowAnError3P(value, val1, val2, method, methodDesc) {
-    return it('Should throw an error if ' + value + ' ' + methodDesc + ' val1=' + val1 + ' val2=' + val2, function () {
-        expect(function () { method(value, val1, val2); }).toThrow(new Error('values ​​not comparable value= ' + value + ' val1=' + val1 + ' val2=' + val2));
+function shouldThrowAnError3P_isEmpty_Error(value, min, max, method, methodDesc) {
+    return it('Should throw an error if ' + value + ' ' + methodDesc + ' min=' + min + ' max=' + max, function () {
+        expect(function () { method(value, min, max); }).toThrow(new _nixin_IDNumber_1.customError('isEmpty_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max));
+    });
+}
+;
+function shouldThrowAnError3P_isNumber_Error(value, min, max, method, methodDesc) {
+    return it('Should throw an error if ' + value + ' ' + methodDesc + ' min=' + min + ' max=' + max, function () {
+        expect(function () { method(value, min, max); }).toThrow(new _nixin_IDNumber_1.customError('isNumber_Error', 'a value is Empty: value = ' + value + " min= " + min + " max= " + max));
     });
 }
 ;
@@ -479,10 +520,10 @@ function test(methodName, method, applyFunction, onValue) {
         }
     });
 }
-function test2P(methodName, method, applyFunction, onValue) {
+function test2P(methodName, method, applyFunction, onValue, error) {
     describe(methodName, function () {
         for (var i = 0; i < onValue.length; i++) {
-            applyFunction(onValue[i].val, onValue[i].cmp, method, methodName);
+            applyFunction(onValue[i].val, onValue[i].cmp, method, methodName, error);
         }
     });
 }
@@ -498,17 +539,20 @@ describe('_nixin-IDNumber', function () {
     test('isNumber', _nixin_IDNumber_1.isNumber, shouldReturnFalse, KO_value_isNumber);
     test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldReturnTrue2P, OK_value_isLessThan);
     test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldReturnFalse2P, KO_value_isLessThan);
-    test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldReturnUndefined2P, undefined_value_isLessThan);
-    test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldThrowAnError2P, throwError_value_isLessThan);
+    test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldThrowAnError2P_isEmpty_Error, isEmpty_Error_value_isLessThan);
+    test2P('isLessThan', _nixin_IDNumber_1.isLessThan, shouldThrowAnError2P_isNumber_Error, isNumber_Error_value_isLessThan);
     test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldReturnTrue2P, OK_value_isGreaterThan);
     test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldReturnFalse2P, KO_value_isGreaterThan);
-    test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldReturnUndefined2P, undefined_value_isLessThan);
-    test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldReturnUndefined2P, undefined_value_isLessThan);
-    test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldThrowAnError2P, throwError_value_isLessThan);
+    test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldThrowAnError2P_isEmpty_Error, isEmpty_Error_value_isLessThan);
+    test2P('isGreaterThan', _nixin_IDNumber_1.isGreaterThan, shouldThrowAnError2P_isNumber_Error, isNumber_Error_value_isLessThan);
     test3P('isInRange', _nixin_IDNumber_1.isInRange, shouldReturnTrue3P, OK_value_isInRange);
     test3P('isInRange', _nixin_IDNumber_1.isInRange, shouldReturnFalse3P, KO_value_isInRange);
-    //  test3P('isInRange', isInRange, shouldReturnUndefined3P, undefined_value_isInRange);
-    test3P('isInRange', _nixin_IDNumber_1.isInRange, shouldThrowAnError3P, throwError_value_isInRange);
+    test3P('isInRange', _nixin_IDNumber_1.isInRange, shouldThrowAnError3P_isEmpty_Error, isEmpty_Error_value_isInRange);
+    test3P('isInRange', _nixin_IDNumber_1.isInRange, shouldThrowAnError3P_isNumber_Error, isNumber_Error_value_isInRange);
+    test3P('isOutRange', _nixin_IDNumber_1.isOutRange, shouldReturnTrue3P, OK_value_isOutRange);
+    test3P('isOutRange', _nixin_IDNumber_1.isOutRange, shouldReturnFalse3P, KO_value_isOutRange);
+    test3P('isOutRange', _nixin_IDNumber_1.isOutRange, shouldThrowAnError3P_isEmpty_Error, isEmpty_Error_value_isInRange);
+    test3P('isOutRange', _nixin_IDNumber_1.isOutRange, shouldThrowAnError3P_isNumber_Error, isNumber_Error_value_isInRange);
 });
 
 
