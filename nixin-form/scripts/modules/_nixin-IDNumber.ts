@@ -28,8 +28,7 @@ export function isNumber(value: any):boolean{
  * @param value  value to test
  * @param compareTo value to compare value parameter
  * @return true if value is less or equal than compareTo parameter,
- * throw an error if value and compareTo aren't number
- * return undefined if value or compareTo are empty
+ * throw an error if value and compareTo aren't number or empty
  */
 export function isLessThan(value: any, compareTo:any):any{
     if(notEmpty(value) && notEmpty(compareTo)){
@@ -46,8 +45,7 @@ export function isLessThan(value: any, compareTo:any):any{
  * @param value  value to test
  * @param compareTo value to compare value parameter
  * @return true if value is greater or equal than compareTo parameter,
- * throw an error if value and compareTo aren't number
- * return undefined if value or compareTo are empty
+ * throw an error if value and compareTo aren't number or empty
  */
 export function isGreaterThan(value: any, compareTo:any):any{
     if(notEmpty(value) && notEmpty(compareTo)){
@@ -66,7 +64,7 @@ export function isGreaterThan(value: any, compareTo:any):any{
  * @param min min value to compare value parameter
  * @param max max value to compare value parameter
  * @return true if value is less or equal than max parameter and greater or equal than min parameter,
- * throw an error if value, max or min aren't number
+ * throw an error if value, max or min aren't number or empty
  * return false if value is not between min and max or if value or min or max is empty
  */
 export function isInRange(value: any, min:any, max: any):boolean{
@@ -85,7 +83,7 @@ export function isInRange(value: any, min:any, max: any):boolean{
  * @param min min value to compare value parameter
  * @param max max value to compare value parameter
  * @return true if value is greater than max parameter and less than min parameter or if value/min/max is empty
- * throw an error if value, max or min aren't number
+ * throw an error if value, max or min aren't number or empty
  * return false if value is between min and max
  */
 export function isOutRange(value: any, min:any, max:any):boolean{
